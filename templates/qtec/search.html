@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+    <div{% if message.tags %} class=" alert {{ message.tags }}"{% endif %}>{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+<div class="col-md-4 m-auto py-4">
+    <div class="card">
+        <div class="card-header">Search which you like</div>
+        <div class="card-body">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ forms.as_p }}
+                <input type="submit" value="Submit" class="btn btn-primary pull-right">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if posts %}
+        <div class="card">
+          <div class="card-header"><i class="fa fa-align-justify"></i>Post List:</div>
+          <div class="card-body">
+             <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                <thead>
+                   <tr>
+                      <th>Sl No.</th>
+                      <th>Results</th>
+                   </tr>
+                </thead>
+                <tbody>
+                {% for post in posts %}
+                   <tr>
+                      <td>{{ forloop.counter }}</td>
+                      <td><a href="{% url 'post-view' post.id %}">{{ post.title }}></a></td>
+                   </tr>
+                {% endfor %}
+                </tbody>
+             </table>
+          </div>
+       </div>
+
+{% else %}
+       <div class="alert alert-danger">No data found...</div>
+{% endif %}
+
+{% endblock %}
